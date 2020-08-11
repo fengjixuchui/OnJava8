@@ -348,7 +348,7 @@ final class Explore extends java.lang.Enum<Explore> {
 
 由于擦除效应（在[泛型 ]() 章节中介绍过），反编译无法得到 Enum 的完整信息，所以它展示的 Explore 的父类只是一个原始的 Enum，而非事实上的 Enum\<Explore\>。
 
-由于 values() 方法是由编译器插入到 enum 定义中的 static 方法，所以，如果你将 enum 实例向上转型为 Enum，那么 values() 方法就不可访问了。不过，在 Class 中有一个 getEnumConstants0 方法，所以即便 Enum 接口中没有 values0 方法，我们仍然可以通过 Class 对象取得所有 enum 实例。
+由于 values() 方法是由编译器插入到 enum 定义中的 static 方法，所以，如果你将 enum 实例向上转型为 Enum，那么 values() 方法就不可访问了。不过，在 Class 中有一个 getEnumConstants() 方法，所以即便 Enum 接口中没有 values() 方法，我们仍然可以通过 Class 对象取得所有 enum 实例。
 
 ```java
 // enums/UpcastEnum.java
@@ -759,7 +759,7 @@ ESPRESSO
 
 ## 使用 EnumSet 替代 Flags
 
-Set 是一种集合，只能向其中添加不重复的对象。当然，enum 也要求其成员都是唯一的，所以 enumi 看起来也具有集合的行为。不过，由于不能从 enum 中删除或添加元素，所以它只能算是不太有用的集合。Java SE5 引入 EnumSet，是为了通过 enum 创建一种替代品，以替代传统的基于 int 的“位标志”。这种标志可以用来表示某种“开/关”信息，不过，使用这种标志，我们最终操作的只是一些 bit，而不是这些 bit 想要表达的概念，因此很容易写出令人难以理解的代码。
+Set 是一种集合，只能向其中添加不重复的对象。当然，enum 也要求其成员都是唯一的，所以 enum 看起来也具有集合的行为。不过，由于不能从 enum 中删除或添加元素，所以它只能算是不太有用的集合。Java SE5 引入 EnumSet，是为了通过 enum 创建一种替代品，以替代传统的基于 int 的“位标志”。这种标志可以用来表示某种“开/关”信息，不过，使用这种标志，我们最终操作的只是一些 bit，而不是这些 bit 想要表达的概念，因此很容易写出令人难以理解的代码。
 
 EnumSet 的设计充分考虑到了速度因素，因为它必须与非常高效的 bit 标志相竞争（其操作与 HashSet 相比，非常地快），就其内部而言，它（可能）就是将一个 long 值作为比特向量，所以 EnumSet 非常快速高效。使用 EnumSet 的优点是，它在说明一个二进制位是否存在时，具有更好的表达能力，并且无需担心性能。
 
